@@ -19,7 +19,7 @@
 В Claude Code:
 
 ```
-/plugin marketplace add <owner>/chatkeeper
+/plugin marketplace add strudeell/chatkeeper
 /plugin install chatkeeper@chatkeeper
 ```
 
