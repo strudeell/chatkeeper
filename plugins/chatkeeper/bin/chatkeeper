@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+# Запускатель Chatkeeper для macOS и Linux.
+#
+# Папка bin/ плагина автоматически попадает в PATH, поэтому в инструкциях
+# можно писать просто "chatkeeper collect fetch" и не думать о том,
+# где лежит python и как называется папка внутри окружения.
+#
+# Использование: chatkeeper <модуль> [аргументы]
+#   chatkeeper setup check
+#   chatkeeper collect login | chats | fetch
+#   chatkeeper digest preview | send
+
+set -e
+
+PLUGIN_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
+DATA="${CLAUDE_PLUGIN_DATA:-$HOME/.claude/plugins/data/chatkeeper-dev}"
+PY="$DATA/.venv/bin/python"
+
+if [ ! -x "$PY" ]; then
+  echo "ОШИБКА: рабочее окружение ещё не создано ($PY)."
+  echo "Нужно пройти установку - скажи Claude: поставь chatkeeper."
+  exit 1
+fi
+
+if [ $# -eq 0 ]; then
+  echo "Использование: chatkeeper <setup|collect|digest|send> [аргументы]"
+  exit 2
+fi
+
+MODULE="$1"
+shift
+exec "$PY" "$PLUGIN_DIR/scripts/$MODULE.py" "$@"
