@@ -26,8 +26,12 @@ if defined CLAUDE_PLUGIN_DATA (
 set "PY=%DATA%\.venv\Scripts\python.exe"
 
 if not exist "%PY%" (
+  rem Addressed to Claude, not to the human: they never see this line, and without
+  rem an explicit pointer Claude used to close the loop - advising to start the
+  rem installation that begins with this very command.
   echo ERROR: python environment is not ready ^(%PY%^).
-  echo Run the installation first: ask Claude to install chatkeeper.
+  echo Setup was never completed. Claude: read "%PLUGIN_DIR%\install.md"
+  echo and run the installation from step 1 - it creates the environment.
   exit /b 1
 )
 
