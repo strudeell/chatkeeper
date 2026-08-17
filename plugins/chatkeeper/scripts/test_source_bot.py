@@ -9,7 +9,6 @@ from __future__ import annotations
 import io
 import os
 import sys
-import tempfile
 import time
 import unittest
 import urllib.error
@@ -17,10 +16,11 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from unittest import mock
 
-# Папку данных подменяем до импорта: common вычисляет пути один раз при загрузке.
-TEMP = tempfile.mkdtemp(prefix="chatkeeper-test-")
-os.environ["CHATKEEPER_DATA"] = TEMP
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from testenv import isolate  # noqa: E402
+
+# Папку данных подменяем до импорта: common вычисляет пути один раз при загрузке.
+TEMP = isolate("chatkeeper-test-")
 
 import source_bot as src  # noqa: E402
 

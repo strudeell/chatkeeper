@@ -10,16 +10,16 @@
 
 from __future__ import annotations
 
-import os
 import sys
-import tempfile
 import unittest
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-TEMP = tempfile.mkdtemp(prefix="chatkeeper-week-test-")
-os.environ["CHATKEEPER_DATA"] = TEMP
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from testenv import isolate  # noqa: E402
+
+# Своя папка данных - до импорта: модули продукта закрепляют пути при загрузке.
+TEMP = isolate("chatkeeper-week-test-")
 
 import setup  # noqa: E402
 import source_bot as src  # noqa: E402

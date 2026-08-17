@@ -1,4 +1,4 @@
-"""Тесты импорта выгрузки. Запуск: python test_import_export.py
+"""Тесты импорта выгрузки. Запуск: python test_history.py
 
 Формат выгрузки телеграма полон тихих ловушек: текст бывает списком кусков,
 дата бывает местной строкой без пояснений, отправитель приходит как user123456.
@@ -9,16 +9,16 @@
 from __future__ import annotations
 
 import json
-import os
 import sys
-import tempfile
 import unittest
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-TEMP = tempfile.mkdtemp(prefix="chatkeeper-import-test-")
-os.environ["CHATKEEPER_DATA"] = TEMP
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from testenv import isolate  # noqa: E402
+
+# Своя папка данных - до импорта: модули продукта закрепляют пути при загрузке.
+TEMP = isolate("chatkeeper-import-test-")
 
 import history as imp  # noqa: E402
 import source_bot as src  # noqa: E402

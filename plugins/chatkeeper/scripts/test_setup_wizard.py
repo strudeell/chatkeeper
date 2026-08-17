@@ -11,13 +11,15 @@ from __future__ import annotations
 import os
 import subprocess
 import sys
-import tempfile
 import unittest
 from pathlib import Path
 
-TEMP = tempfile.mkdtemp(prefix="chatkeeper-wizard-test-")
-os.environ["CHATKEEPER_DATA"] = TEMP
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from testenv import isolate  # noqa: E402
+
+# Своя папка данных - обязательно до импорта setup: он забирает пути к себе
+# при загрузке, и позже подменить их уже нечем.
+TEMP = isolate("chatkeeper-wizard-test-")
 
 import setup  # noqa: E402
 
